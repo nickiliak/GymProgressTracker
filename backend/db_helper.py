@@ -1,5 +1,6 @@
 import datetime
 import mysql.connector
+import random
 from contextlib import contextmanager
 from logging_setup import setup_logger
 
@@ -23,8 +24,8 @@ def get_db_cursor(commit=False):
     cursor.close()
     connection.close()
 
-def fetch_weight_date_range(start_date, end_date):
-    logger.info(f"Fetching weight based on a start_date and end_date")
+def fetch_weights_for_date(start_date, end_date):
+    logger.info(f"Fetching weights based on a start_date:{start_date} and end_date:{end_date}")
     with get_db_cursor() as cursor:
         cursor.execute("SELECT * FROM WeightLogs WHERE logged_at BETWEEN %s AND %s", (start_date, end_date))
         weights = cursor.fetchall()
@@ -50,15 +51,13 @@ def delete_all():
     with get_db_cursor() as cursor:
         cursor.execute("TRUNCATE TABLE WeightLogs")
 
-if __name__ == "__main__":
-    delete_all()
-    insert_weight(72.5, datetime.date(2025, 9, 2))
-    insert_weight(72.5, datetime.date(2025, 9, 3))
-    insert_weight(72.5, datetime.date(2025, 9, 4))
-    insert_weight(72.5, datetime.date(2025, 9, 5))
-    insert_weight(72.5, datetime.date(2025, 9, 6))
-
-    weights = fetch_weight_date_range(datetime.date(2025, 9, 2), datetime.date(2025, 9, 4))
-    for weight in weights:
-        print(weight)
-    
+# if __name__ == "__main__":
+#     delete_all()
+#     value = 70
+#     for i in range(1, 30):
+#         chance = 0.4
+#         if random.random() < chance:  # random.random() returns float [0.0, 1.0)
+#             increment = random.uniform(0.1, 0.5)  # small increment
+#             value += increment
+            
+#         insert_weight(value, datetime.date(2025, 9, i))
