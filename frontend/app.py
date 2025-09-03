@@ -1,6 +1,7 @@
 import streamlit as st
 from weight_tab import weight_tab
 from weight_update_tab import weight_update_tab
+from program_analytics import program_analytics
 from program_builder_tab import program_builder_tab
 
 st.title("Gym Progress Tracker")
@@ -13,5 +14,8 @@ with tab1:
 with tab2:
     weight_update_tab()
 
+with tab3:
+    program_analytics()
+    
 with tab4:
     program_builder_tab()

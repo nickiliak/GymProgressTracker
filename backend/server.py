@@ -41,3 +41,12 @@ def delete_weight(date: date):
 def add_day(day_program: DayProgram):
     db_helper.insert_new_day(day_program.exercises, day_program.day_number)
     return {"message": "Day program inserted successfully"}
+
+@app.get("/exercises/")
+def get_exercises():
+    exercises = db_helper.fetch_all_exercises()
+    
+    if exercises is None:
+        raise HTTPException(status_code=500, detail="Failed to retrieve exercises from the database.")
+    
+    return exercises

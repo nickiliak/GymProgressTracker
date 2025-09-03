@@ -82,3 +82,12 @@ def insert_new_day(exercises, day_number):
         sql = "INSERT INTO exerciselogs (exercise_name, kg, reps, sets, category, day_number) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.executemany(sql, data_to_insert)
     logger.info(f"Batch insertion for day {day_number} successful.")
+
+def fetch_all_exercises():
+    logger.info(f"Fetching all exercises")
+    
+    with get_db_cursor() as cursor:
+        cursor.execute("SELECT * FROM exerciselogs")
+        exercises = cursor.fetchall()
+        
+    return exercises
