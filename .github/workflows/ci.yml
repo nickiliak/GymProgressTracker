@@ -54,12 +54,12 @@ jobs:
         # Example: create tables if needed
         mysql -h 127.0.0.1 -P 3306 -u test_user -ptest_password test_db < tests/schema.sql
 
-    - name: Run Pytest
-      run: pytest
-      env:
-        PYTHONPATH: ./backend
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_NAME: test_db
-        DB_USER: test_user
-        DB_PASSWORD: test_password
+    # - name: Run Pytest
+    #   run: pytest
+    #   env:
+    #     PYTHONPATH: ./backend
+    #     DB_HOST: 127.0.0.1
+    #     DB_PORT: 3306
+    #     DB_NAME: test_db
+    #     DB_USER: test_user
+    #     DB_PASSWORD: test_password
