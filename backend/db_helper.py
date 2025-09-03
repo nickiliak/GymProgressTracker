@@ -51,16 +51,34 @@ def delete_at_date(date):
         
 def delete_all():
     logger.info(f"Delete everything")
-    with get_db_cursor() as cursor:
+    with get_db_cursor(commit=True) as cursor:
         cursor.execute("TRUNCATE TABLE WeightLogs")
 
-# if __name__ == "__main__":
-#     delete_all()
-#     value = 70
-#     for i in range(1, 30):
-#         chance = 0.4
-#         if random.random() < chance:  # random.random() returns float [0.0, 1.0)
-#             increment = random.uniform(0.1, 0.5)  # small increment
-#             value += increment
-            
-#         insert_weight(value, datetime.date(2025, 9, i))
+def delete_day(day_number):
+    logger.info(f"Deleting all exercises for day: {day_number}")
+    with get_db_cursor(commit=True) as cursor:
+        cursor.execute("DELETE FROM exerciselogs WHERE day_number=%s", (day_number,))
+
+def insert_new_exercise(exercise_name, kg, reps, sets, category, day_number):
+    logger.info(f"Inserting new exercise: {exercise_name}, {kg}kg, {reps} reps, {sets} sets, category: {category}, day_number: {day_number}")
+    with get_db_cursor(commit=True) as cursor:
+        cursor.execute(
+            "INSERT INTO exerciselogs (exercise_name, kg, reps, sets, category, day_number) VALUES (%s, %s, %s, %s, %s, %s)",
+            (exercise_name, kg, reps, sets, category, day_number)
+        )
+        
+def insert_new_day(exercises, day_number):
+    logger.info(f"Inserting a new day's worth of exercises ({len(exercises)} total) for day: {day_number}")
+    
+    # First, delete any existing exercises for this day to reset it
+    delete_day(day_number)
+    
+    with get_db_cursor(commit=True) as cursor:
+        # Prepare the list of tuples for executemany, including the day_number
+        data_to_insert = [
+            (e.exercise_name, e.kg, e.reps, e.sets, e.category, day_number) for e in exercises
+        ]
+        
+        sql = "INSERT INTO exerciselogs (exercise_name, kg, reps, sets, category, day_number) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor.executemany(sql, data_to_insert)
+    logger.info(f"Batch insertion for day {day_number} successful.")

@@ -6,6 +6,17 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+class Exercise(BaseModel):
+    exercise_name: str
+    kg: float
+    reps: int
+    sets: int
+    category: str
+
+class DayProgram(BaseModel):
+    exercises: list[Exercise]
+    day_number: int
+    
 class Weight(BaseModel):
     weight_kg: float
     logged_at: date
@@ -25,3 +36,8 @@ def insert_weight(weight: Weight):
 @app.delete("/weights_delete/{date}")
 def delete_weight(date: date):
     db_helper.delete_at_date(date)
+    
+@app.post("/add_day/")
+def add_day(day_program: DayProgram):
+    db_helper.insert_new_day(day_program.exercises, day_program.day_number)
+    return {"message": "Day program inserted successfully"}
