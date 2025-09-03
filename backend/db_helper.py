@@ -2,10 +2,9 @@ import datetime
 import mysql.connector
 import random
 from contextlib import contextmanager
-from .logging_setup import setup_logger
+from logging_setup import setup_logger
 
 logger = setup_logger('db_helper')
-
 
 @contextmanager
 def get_db_cursor(commit=False):
@@ -44,6 +43,11 @@ def insert_weight(weight, date):
             "INSERT INTO WeightLogs (weight_kg, logged_at) VALUES (%s, %s)",
             (weight, date)
         )
+        
+def delete_at_date(date):
+    logger.info(f"delete_at_date was called with date:{date,}")
+    with get_db_cursor(commit=True) as cursor:
+        cursor.execute("DELETE FROM WeightLogs WHERE logged_at=%s", (date,))
         
 def delete_all():
     logger.info(f"Delete everything")
