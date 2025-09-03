@@ -1,6 +1,5 @@
 import logging
 
-
 def setup_logger(name, log_file='server.log', level=logging.DEBUG):
     # Create a custom logger
     logger = logging.getLogger(name)

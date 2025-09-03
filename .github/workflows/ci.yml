@@ -31,3 +31,8 @@ jobs:
     - name: Check frontend runs
       run: |
         python -m py_compile frontend/app.py
+        
+    - name: Run Pytest
+      run: |
+        # This command runs all tests found in the project
+        pytest
