@@ -9,6 +9,21 @@ on:
 jobs:
   check_code:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
     - name: Checkout code
@@ -23,16 +38,27 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install mysqlclient  # or pymysql depending on your project
 
     - name: Check backend runs
-      run: |
-        python -m py_compile backend/server.py
+      run: python -m py_compile backend/server.py
 
     - name: Check frontend runs
+      run: python -m py_compile frontend/app.py
+
+    - name: Wait for MySQL
+      run: sleep 20  # let MySQL start
+
+    - name: Run database migrations / setup schema
       run: |
-        python -m py_compile frontend/app.py
-        
-    # - name: Run Pytest
-    #   run: |
-    #     # This command runs all tests found in the project
-    #     pytest
+        # Example: create tables if needed
+        mysql -h 127.0.0.1 -P 3306 -u test_user -ptest_password test_db < tests/schema.sql
+
+    - name: Run Pytest
+      run: pytest
+      env:
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_NAME: test_db
+        DB_USER: test_user
+        DB_PASSWORD: test_password
