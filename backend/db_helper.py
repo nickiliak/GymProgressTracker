@@ -2,7 +2,7 @@ import datetime
 import mysql.connector
 import random
 from contextlib import contextmanager
-from backend.logging_setup import setup_logger
+from logging_setup import setup_logger
 
 logger = setup_logger('db_helper')
 

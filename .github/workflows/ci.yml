@@ -57,6 +57,7 @@ jobs:
     - name: Run Pytest
       run: pytest
       env:
+        PYTHONPATH: ./backend
         DB_HOST: 127.0.0.1
         DB_PORT: 3306
         DB_NAME: test_db
