@@ -2,4 +2,4 @@ fastapi
 uvicorn
 streamlit
 requests
-pytestgive me 
+pytest
