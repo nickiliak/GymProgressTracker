@@ -8,20 +8,38 @@ API_URL = "http://localhost:8000"
 
 
 def weight_tab():
+
+    if "data" not in st.session_state:
+        st.session_state.data = None
+    if "last_start_date" not in st.session_state:
+        st.session_state.last_start_date = None
+    if "last_end_date" not in st.session_state:
+        st.session_state.last_end_date = None
+    
     col1, col2 = st.columns(2)
     with col1:
-        start_date = st.date_input("Start Date", datetime(2025, 9, 1))
+        current_start_date  = st.date_input("Start Date", datetime(2025, 9, 1))
 
     with col2:
-        end_date = st.date_input("End Date", datetime(2025, 9, 30))
+        current_end_date = st.date_input("End Date", datetime(2025, 9, 30))
+
+    # Check if dates have changed since the last run
+    dates_changed = (
+        current_start_date != st.session_state.last_start_date
+        or current_end_date != st.session_state.last_end_date
+    )
     
-    if st.button("Get Weight Analytics"):
+    if dates_changed or st.session_state.data is None:
+        
+        st.session_state.last_start_date = current_start_date
+        st.session_state.last_end_date = current_end_date
+   
         payload = {
-            "start_date": start_date.strftime("%Y-%m-%d"),
-            "end_date": end_date.strftime("%Y-%m-%d")
+            "start_date": current_start_date.strftime("%Y-%m-%d"),
+            "end_date": current_end_date.strftime("%Y-%m-%d")
         }
 
-        response = requests.get(f"{API_URL}/weights/", params=payload)
+        response = requests.get(f"{API_URL}/weights_analytics/", params=payload)
         response = response.json()
 
         df = pd.DataFrame(response)
