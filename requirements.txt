@@ -3,3 +3,6 @@ uvicorn
 streamlit
 requests
 pytest
+mysql-connector-python
+pandas
+plotly
