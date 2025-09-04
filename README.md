@@ -1,55 +1,88 @@
-# Project Description: Gym Progress Tracker
-This project is a simple web app that helps you log and track your workouts. It's built with three main parts that work together to store your data and show you your progress.
+# Gym Progress Tracker
 
-## Technology
-This project uses:
+A simple web app to log and track your workouts. It consists of three main parts working together to store your data and visualize your progress.
 
-Streamlit for the frontend, which is the part you see and interact with.
+---
 
-FastAPI for the backend, which is the server that handles data requests.
+## Technology Stack
 
-MySQL for the database, which is where all your exercise data is stored.
+- **Frontend:** Streamlit – interactive UI for entering and viewing data.  
+- **Backend:** FastAPI – handles data requests and serves API endpoints.  
+- **Database:** MySQL – stores all your exercise and weight data.  
+
+---
 
 ## Quality and Automation
-To ensure the project is reliable and maintainable, a few key practices were implemented:
 
-Logging: The application uses Python's logging module to track important events, such as data insertions and deletions. This is crucial for debugging and monitoring.
+- **Logging:** Uses Python's `logging` module to track important events like data insertions and deletions, aiding debugging and monitoring.  
+- **Testing:** Uses Pytest for unit and integration tests to ensure core functions work as expected.  
+- **Continuous Integration (CI):** GitHub Actions automatically runs tests on every code change, keeping the codebase stable.  
 
-Testing with Pytest: Pytest is used for basic unit and integration testing to ensure core functions work as expected.
+---
 
-Continuous Integration (CI): The project is set up with GitHub Actions for CI. This automatically runs the tests on every code change, ensuring the code remains stable and functional.
+## Docker Support
+
+This project can be run entirely with Docker, eliminating the need to manually install Python, dependencies, or MySQL. With Docker Compose, you can start all services with a single command:
+
+```bash
+docker-compose up --build
+```
+
+This will:
+
+1. Launch a MySQL database container with your schema.
+2. Start the FastAPI backend container.
+3. Start the Streamlit frontend container.
+4. Automatically handle inter-service communication.
+
+To stop all services:
+
+```bash
+docker-compose down
+```
+
+> You can still run the project manually without Docker if preferred.  
+
+---
 
 ## How It Works
-The app works by sending information between the parts. When you enter data and click a button on the Streamlit frontend, it sends a request to the FastAPI backend. The backend then saves that information to the MySQL database. When you want to see your progress, the backend retrieves the data from the database and sends it back to the frontend to display it.
+
+The app communicates between three layers:
+
+1. **Frontend:** Streamlit UI where you input your workouts or view analytics.  
+2. **Backend:** FastAPI handles incoming requests, queries the database, and returns results.  
+3. **Database:** MySQL stores all your logged exercises and weight updates.  
+
+When you submit data, the frontend sends requests to the backend. The backend saves or retrieves data from the database and sends it back for visualization.
+
+---
 
 ## Key Features
+
 ### Program Builder
-This is where you log your workouts. You can easily add or delete workout days and enter details for each exercise, like the name, weight, sets, and reps. When you're done, you can submit the whole day's workout at once.
- <img width="1367" height="1364" alt="program_builder" src="https://github.com/user-attachments/assets/1296767d-14a6-443f-9289-340db62b24e4" />
- 
+Log your workouts by adding or deleting workout days and exercises (name, weight, sets, reps, category). Submit the whole day's workout at once.
+
 ### Program Analytics
-This feature helps you visualize your workout data. It pulls all your logged exercises from the database and creates a pie chart to show you the distribution of your exercises by category, so you can see which muscle groups you focus on most.
-<img width="1355" height="1150" alt="program_analytics" src="https://github.com/user-attachments/assets/0be7fbfe-7536-4f7c-94cd-9c575c8f797a" />
+Visualize your workouts with pie charts showing exercise distribution by category.
 
 ### Weight Update
-This is where you can log or edit your weight.
-  <img width="1030" height="1001" alt="update_weight" src="https://github.com/user-attachments/assets/17b3231b-41ad-4a25-bc16-68ff9d1def12" />
+Log or update your weight entries.
 
 ### Weight Analytics
-Visualization of your weight over time period.
-<img width="1216" height="1104" alt="weight_analytics" src="https://github.com/user-attachments/assets/016c6cdd-768d-481f-97b0-07ce0ef37b76" />
+View weight progress over time with automatic chart generation.
 
-## How to Run the Project
-Prerequisites
-Python 3.7+
+---
 
-A running MySQL server
+## Running Without Docker
 
-A command-line interface
+### Prerequisites
+- Python 3.7+
+- A running MySQL server
+- Command-line interface
 
 ### Step 1: Set up the Database
-Connect to your MySQL server and run this code to create the database and table:
 
+```sql
 CREATE DATABASE gym_logger;
 
 USE gym_logger;
@@ -63,28 +96,24 @@ CREATE TABLE `exerciselogs` (
     category VARCHAR(255) NOT NULL,
     day_number INT NOT NULL
 );
-
-
+```
 
 ### Step 2: Install Dependencies
-Open your terminal, go to the project folder, and install the required libraries using the requirements.txt file:
 
+```bash
 pip install -r requirements.txt
-
-
+```
 
 ### Step 3: Run the Backend
-In one terminal, start the backend server:
 
+```bash
 uvicorn backend.server:app --reload
-
-
+```
 
 ### Step 4: Run the Frontend
-In a new terminal, run the Streamlit app:
 
+```bash
 streamlit run frontend/app.py
+```
 
-
-
-The application will open in your web browser, and you'll be ready to start logging your workouts.
+The application will open in your web browser and you’ll be ready to log workouts.
