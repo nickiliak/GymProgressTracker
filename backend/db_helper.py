@@ -2,7 +2,7 @@ import datetime
 import mysql.connector
 import random
 from contextlib import contextmanager
-from logging_setup import setup_logger
+from .logging_setup import setup_logger
 
 logger = setup_logger('db_helper')
 
@@ -25,14 +25,14 @@ def get_db_cursor(commit=False):
 def fetch_weights_for_date(start_date, end_date):
     logger.info(f"Fetching weights based on a start_date:{start_date} and end_date:{end_date}")
     with get_db_cursor() as cursor:
-        cursor.execute("SELECT * FROM WeightLogs WHERE logged_at BETWEEN %s AND %s", (start_date, end_date))
+        cursor.execute("SELECT * FROM weightlogs WHERE logged_at BETWEEN %s AND %s", (start_date, end_date))
         weights = cursor.fetchall()
         return weights
     
 def fetch_weight():
     logger.info(f"Fetch everything")
     with get_db_cursor() as cursor:
-        cursor.execute("SELECT * FROM WeightLogs")
+        cursor.execute("SELECT * FROM weightlogs")
         weights = cursor.fetchall()
         return weights
     
@@ -40,19 +40,19 @@ def insert_weight(weight, date):
     logger.info(f"insert_weight was called with weight:{weight}, date:{date}")
     with get_db_cursor(commit=True) as cursor:
         cursor.execute(
-            "INSERT INTO WeightLogs (weight_kg, logged_at) VALUES (%s, %s)",
+            "INSERT INTO weightlogs (weight_kg, logged_at) VALUES (%s, %s)",
             (weight, date)
         )
         
 def delete_at_date(date):
     logger.info(f"delete_at_date was called with date:{date,}")
     with get_db_cursor(commit=True) as cursor:
-        cursor.execute("DELETE FROM WeightLogs WHERE logged_at=%s", (date,))
+        cursor.execute("DELETE FROM weightlogs WHERE logged_at=%s", (date,))
         
 def delete_all():
     logger.info(f"Delete everything")
     with get_db_cursor(commit=True) as cursor:
-        cursor.execute("TRUNCATE TABLE WeightLogs")
+        cursor.execute("TRUNCATE TABLE weightlogs")
 
 def delete_day(day_number):
     logger.info(f"Deleting all exercises for day: {day_number}")

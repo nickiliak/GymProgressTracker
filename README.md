@@ -76,14 +76,14 @@ pip install -r requirements.txt
 ### Step 3: Run the Backend
 In one terminal, start the backend server:
 
-uvicorn server:app --reload
+uvicorn backend.server:app --reload
 
 
 
 ### Step 4: Run the Frontend
 In a new terminal, run the Streamlit app:
 
-streamlit run program_builder_tab.py
+streamlit frontend/run app.py
 
 
 

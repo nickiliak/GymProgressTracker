@@ -3,6 +3,7 @@ from datetime import datetime
 import requests
 import pandas as pd
 import plotly.express as px
+from dateutil.relativedelta import relativedelta
 
 API_URL = "http://localhost:8000"
 
@@ -17,11 +18,12 @@ def weight_tab():
         st.session_state.last_end_date = None
     
     col1, col2 = st.columns(2)
+    today = datetime.today()
     with col1:
-        current_start_date  = st.date_input("Start Date", datetime(2025, 9, 1))
+        current_start_date  = st.date_input("Start Date", today - relativedelta(months=1))
 
     with col2:
-        current_end_date = st.date_input("End Date", datetime(2025, 9, 30))
+        current_end_date = st.date_input("End Date", today)
 
     # Check if dates have changed since the last run
     dates_changed = (
@@ -43,24 +45,27 @@ def weight_tab():
         response = response.json()
 
         df = pd.DataFrame(response)
-        df.rename(columns={"weight_kg": "weight", "logged_at": "date"}, inplace=True)
-        df = df.dropna(subset=["weight"]) 
-        df = df.sort_values("date")
-        
-        start_date = df["date"].min()
-        final_date = df["date"].max()
-        
-        least_weight = df["weight"].min()
-        max_weight = df["weight"].max()
-        
-        start_weight = df.loc[df["date"] == start_date, "weight"].iloc[0]
-        final_weight = df.loc[df["date"] == final_date, "weight"].iloc[0]
-        weight_diff = final_weight - start_weight
-        
-        fig = px.line(df, x="date", y="weight", title=f"Weight gain over time,  {weight_diff:.2f} kg", markers=True)
-        
-        fig.update_yaxes(range=[least_weight, max_weight], fixedrange=True)
-        fig.update_xaxes(range=[start_date, final_date], fixedrange=True)
-        
-        fig.update_traces(hovertemplate='Date: %{x}<br>Weight: %{y} kg')
-        st.plotly_chart(fig)
+        if df == []:
+            st.write(f"No weight found for the dates {today} - {today - relativedelta(months=1)}")
+        else: 
+            df.rename(columns={"weight_kg": "weight", "logged_at": "date"}, inplace=True)
+            df = df.dropna(subset=["weight"]) 
+            df = df.sort_values("date")
+            
+            start_date = df["date"].min()
+            final_date = df["date"].max()
+            
+            least_weight = df["weight"].min()
+            max_weight = df["weight"].max()
+            
+            start_weight = df.loc[df["date"] == start_date, "weight"].iloc[0]
+            final_weight = df.loc[df["date"] == final_date, "weight"].iloc[0]
+            weight_diff = final_weight - start_weight
+            
+            fig = px.line(df, x="date", y="weight", title=f"Weight gain over time,  {weight_diff:.2f} kg", markers=True)
+            
+            fig.update_yaxes(range=[least_weight, max_weight], fixedrange=True)
+            fig.update_xaxes(range=[start_date, final_date], fixedrange=True)
+            
+            fig.update_traces(hovertemplate='Date: %{x}<br>Weight: %{y} kg')
+            st.plotly_chart(fig)
