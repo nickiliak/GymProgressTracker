@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `exerciselogs`
+--
+
+DROP TABLE IF EXISTS `exerciselogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `exerciselogs` (
+  `log_id` int NOT NULL AUTO_INCREMENT,
+  `exercise_name` varchar(255) NOT NULL,
+  `kg` float DEFAULT NULL,
+  `reps` int DEFAULT NULL,
+  `sets` int DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
+  `day_number` int DEFAULT NULL,
+  PRIMARY KEY (`log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exerciselogs`
+--
+
+LOCK TABLES `exerciselogs` WRITE;
+/*!40000 ALTER TABLE `exerciselogs` DISABLE KEYS */;
+INSERT INTO `exerciselogs` VALUES (16,'RDL',70,5,3,'Legs',1),(17,'Deadlift',100,5,3,'Legs',1),(18,'Squat',80,5,3,'Chest',1),(19,'Crunch',10,12,3,'Core',1),(20,'Tricep Ext.',15,8,3,'Arms',1),(21,'Overhead Press',40,10,3,'Shoulders',2),(22,'Bicep Curl',15,12,3,'Arms',2),(23,'Forearm',10,10,8,'Arms',2),(24,'Lateral Raise',15,10,3,'Shoulders',2),(25,'Bench Press',0,10,1,'Chest',2),(26,'Pull up',0,8,3,'Back',3),(27,'Leg Raise',0,9,3,'Core',3),(28,'Squat',39,10,3,'Legs',3),(29,'Leg extension',15,10,3,'Legs',3),(30,'Hamstring ext.',39,15,3,'Legs',3);
+/*!40000 ALTER TABLE `exerciselogs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `weightlogs`
 --
 
@@ -27,7 +56,7 @@ CREATE TABLE `weightlogs` (
   `weight_kg` float NOT NULL,
   `logged_at` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-03 17:26:41
+-- Dump completed on 2025-09-04 17:04:30
