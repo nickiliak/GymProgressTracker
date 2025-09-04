@@ -80,23 +80,8 @@ View weight progress over time with automatic chart generation.
 - A running MySQL server
 - Command-line interface
 
-### Step 1: Set up the Database
-
-```sql
-CREATE DATABASE gym_logger;
-
-USE gym_logger;
-
-CREATE TABLE `exerciselogs` (
-    log_id INT PRIMARY KEY AUTO_INCREMENT,
-    exercise_name VARCHAR(255) NOT NULL,
-    kg FLOAT,
-    reps INT,
-    sets INT,
-    category VARCHAR(255) NOT NULL,
-    day_number INT NOT NULL
-);
-```
+### Step 1: Check the database.
+Make sure to use the database in tests/schema.sql
 
 ### Step 2: Install Dependencies
 
