@@ -83,7 +83,7 @@ uvicorn backend.server:app --reload
 ### Step 4: Run the Frontend
 In a new terminal, run the Streamlit app:
 
-streamlit frontend/run app.py
+streamlit run frontend/app.py
 
 
 

@@ -1,6 +1,4 @@
-import datetime
 import mysql.connector
-import random
 from contextlib import contextmanager
 from .logging_setup import setup_logger
 
@@ -45,7 +43,7 @@ def insert_weight(weight, date):
         )
         
 def delete_at_date(date):
-    logger.info(f"delete_at_date was called with date:{date,}")
+    logger.info(f"delete_at_date was called with date:{date}")
     with get_db_cursor(commit=True) as cursor:
         cursor.execute("DELETE FROM weightlogs WHERE logged_at=%s", (date,))
         

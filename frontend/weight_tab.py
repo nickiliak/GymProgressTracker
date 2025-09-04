@@ -45,7 +45,7 @@ def weight_tab():
         response = response.json()
 
         df = pd.DataFrame(response)
-        if df == []:
+        if len(df) == 0:
             st.write(f"No weight found for the dates {today} - {today - relativedelta(months=1)}")
         else: 
             df.rename(columns={"weight_kg": "weight", "logged_at": "date"}, inplace=True)
