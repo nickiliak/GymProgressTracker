@@ -61,15 +61,19 @@ When you submit data, the frontend sends requests to the backend. The backend sa
 
 ### Program Builder
 Log your workouts by adding or deleting workout days and exercises (name, weight, sets, reps, category). Submit the whole day's workout at once.
+<img width="1283" height="1091" alt="programbuilder" src="https://github.com/user-attachments/assets/bcb37396-876e-4562-aa6b-d56d9d9de757" />
 
 ### Program Analytics
 Visualize your workouts with pie charts showing exercise distribution by category.
+<img width="1355" height="1150" alt="program_analytics" src="https://github.com/user-attachments/assets/c280dc05-6380-4e6a-a93c-676a7393fa8f" />
 
 ### Weight Update
 Log or update your weight entries.
+<img width="1030" height="1001" alt="update_weight" src="https://github.com/user-attachments/assets/ea151f54-4356-4730-8cbd-121df03b7a5a" />
 
 ### Weight Analytics
 View weight progress over time with automatic chart generation.
+<img width="1216" height="1104" alt="weight_analytics" src="https://github.com/user-attachments/assets/7709ec7b-e076-46be-b404-19bbab740c8c" />
 
 ---
 
