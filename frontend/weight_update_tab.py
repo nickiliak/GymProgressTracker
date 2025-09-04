@@ -1,8 +1,7 @@
 import streamlit as st
 from datetime import datetime
 import requests
-
-API_URL = "http://localhost:8000"
+from util import API_URL
 
 def weight_update_tab():
     st.header("Insert weight")

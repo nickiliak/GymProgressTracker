@@ -1,16 +1,26 @@
+import os
 import mysql.connector
 from contextlib import contextmanager
-from .logging_setup import setup_logger
+from logging_setup import setup_logger
 
 logger = setup_logger('db_helper')
+
+# Read database credentials from environment variables
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = int(os.getenv("DB_PORT", 3306))
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "root")
+DB_NAME = os.getenv("DB_NAME", "gym_logger")
+
 
 @contextmanager
 def get_db_cursor(commit=False):
     connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="gym_logger"
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME
     )
 
     cursor = connection.cursor(dictionary=True)
@@ -19,6 +29,7 @@ def get_db_cursor(commit=False):
         connection.commit()
     cursor.close()
     connection.close()
+
 
 def fetch_weights_for_date(start_date, end_date):
     logger.info(f"Fetching weights based on a start_date:{start_date} and end_date:{end_date}")

@@ -2,8 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
-
-API_URL = "http://localhost:8000"
+from util import API_URL
 
 def program_analytics():
     """

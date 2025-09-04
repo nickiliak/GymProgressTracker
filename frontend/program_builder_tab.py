@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://localhost:8000"
+from util import API_URL
 
 def program_builder_tab():
     st.header("Build your program💪")

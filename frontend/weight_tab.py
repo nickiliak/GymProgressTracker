@@ -4,8 +4,7 @@ import requests
 import pandas as pd
 import plotly.express as px
 from dateutil.relativedelta import relativedelta
-
-API_URL = "http://localhost:8000"
+from util import API_URL
 
 
 def weight_tab():
